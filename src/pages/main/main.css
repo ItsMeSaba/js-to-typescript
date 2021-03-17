@@ -1,0 +1,33 @@
+.main .upper {
+    /* background-color: rgb(49, 120, 198); */
+    /* background-color: rgb(34, 46, 237); */
+    background-color: rgb(29, 41, 232);
+    padding: 3rem 0;
+    text-align: center;
+}
+
+.main .upper .headerText {
+    font-size: 3.5rem;
+    color: white;
+    font-weight: 800;
+    letter-spacing: -3px;
+    /* padding: 0 0 .5rem 0; */
+}
+
+article {
+    /* padding: 3rem 2rem; */
+    text-align: justify;
+    line-height: 25px;
+}
+
+.answerTextarea {
+    background-color: transparent;
+    min-height: 5px;
+    width: 500px;
+    color: white;
+    border: none;
+}
+
+.section {
+    padding: 10rem 3rem;
+}
