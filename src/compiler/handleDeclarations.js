@@ -6,9 +6,10 @@ export function objectDeclaration(object, interfaces) {
 
     let objType = objectInterface(ref.init.original.properties);
 
-    let objInterface = JSON.stringify(objType, null, '\t').replace(/"/g, '');
+    let objInterface = JSON.stringify(objType, null, '   ').replace(/"/g, '');
 
-    interfaces.push(`interface ${ref.id.name}Interface ${objInterface}`);
+    // interfaces.push(`interface ${ref.id.name}Interface ${objInterface}`);
+    object.kind = `interface ${ref.id.name}Interface ${objInterface}\n\n${object.kind}`
 
     ref.id.name += ` : ${ref.id.name}Interface`;
 }
@@ -20,3 +21,9 @@ export function arrayDeclaration(array) {
     
     ref.id.name += ` : ${type}`
 }
+
+// export function literalDeclaration(literal) {
+//     let ref = literal.declarations[0];
+
+//     ref.id.name += ` : ${typeof ref.init.original.value}`
+//  }

@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react'
 import './searchbox.css'
 import algorithm from "../../algorithm";
-import { isInputObject, isInputArray, arrayInterface, objectInterface, isInputString } from '../../compiler/customTypesX';
+import { isInputObject, isInputArray, arrayInterface, objectInterface, isInputString } from '../../customTypesX';
 import { Controlled as CodeMirror } from 'react-codemirror2';
 import compiler from '../../compiler/compiler';
 import { variableDeclarations } from '../../regexPatterns';
@@ -49,22 +49,24 @@ function Searchbox() {
         
             <CodeMirror
                 value={code}
+                style={{ height : '600px' }}
                 options={{
                     mode: "javascript",
                     ...codeMirrorOptions
-                  }}
+                }}
                 onBeforeChange={(editor, data, js) => {
                     clearTimeout(timeoutId);
                     setCode(js);
-
+                    
                     setTimeoutId(setTimeout(() => {
                         compiler(js, setResults);
                     }, 2000))
                 }}
-            />
+                />
 
             <CodeMirror
                 value={results}
+                style={{ height : '600px' }}
                 options={{
                     mode: "javascript",
                     ...codeMirrorOptions

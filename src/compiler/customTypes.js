@@ -4,20 +4,22 @@ export function objectInterface(properties) {
     let obj = {};
 
     for(let i = 0; i < properties.length; i++) {
+        let name = properties[i].key.type === 'Literal' ? properties[i].key.value : properties[i].key.name;
+
         switch (properties[i].value.type) {
             case 'Literal':
-                obj[properties[i].key.name] = typeof properties[i].value.value;
+                obj[name] = typeof properties[i].value.value;
 
                 break;
 
             case 'ObjectExpression':
-                obj[properties[i].key.name] = objectInterface(properties[i].value.properties);
+                obj[name] = objectInterface(properties[i].value.properties);
 
                 break;
 
             case 'ArrayExpression':
                 let json = stringifyWithSpaces(arrayInterface(properties[i].value.elements));
-                obj[properties[i].key.name] = json;
+                obj[name] = json;
 
                 break;
         }

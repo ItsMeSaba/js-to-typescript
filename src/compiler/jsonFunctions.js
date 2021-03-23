@@ -35,3 +35,15 @@ export function stringifyWithSpaces(data) {
 }
 
 export const stringifyWithoutQuotes = data => JSON.stringify(data).replace(/"/g, '');
+
+export const stringifyQuotesSpaces = data => JSON.stringify(data, null, '\t').replace(/"/g, '')
+
+export function objectsEqual(obj1, obj2) {
+    for(let [key, value] of Object.keys(obj1)) {
+        if(!obj2.hasOwnProperty(key)) return false;
+
+        if(obj2[key] !== value) return false;
+    }
+
+    return  true;
+}
