@@ -20,6 +20,7 @@ export default function(input, setResults) {
         let ref = tree.program.body;
         let interfaces = [];
 
+        console.clear();
 
         loopBody(ref)
         console.log('---')

@@ -60,7 +60,7 @@ function Searchbox() {
                     
                     setTimeoutId(setTimeout(() => {
                         compiler(js, setResults);
-                    }, 2000))
+                    }, 500))
                 }}
                 />
 

@@ -2,6 +2,6 @@ import { objectDeclaration, arrayDeclaration } from '../handleDeclarations';
 import { addTypesToFunction } from '../tsTreeParameters'
 
 
-export function functionDeclarations(ref) {
-    addTypesToFunction(ref)
+export function functionDeclarations(ref, i) {
+    addTypesToFunction(ref, i)
 }

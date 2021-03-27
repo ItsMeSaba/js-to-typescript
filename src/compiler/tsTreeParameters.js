@@ -1,10 +1,11 @@
 import { arrayInterface, objectInterface } from './customTypes'
 import { stringifyWithSpaces, objectsEqual, stringifyWithoutQuotes, stringifyQuotesSpaces } from './jsonFunctions'
+import { loopBody } from './loopBody';
 
 const {parse, print} = require('recast')
 const tsParser = require("recast/parsers/typescript")
 
-const parseTS = ts => parse(ts, { parser: tsParser }).program.body[0];
+export const parseTS = ts => parse(ts, { parser: tsParser }).program.body[0];
 
 
 export function addVariableArrayType(ref) {
@@ -13,7 +14,6 @@ export function addVariableArrayType(ref) {
 
     ref.declarations[0].id.typeAnnotation = newArrType;
 
-    console.log(parseTS(`let a = () => 5`))
 }
 
 export function addVariableObjectType(ref, i) {
@@ -32,10 +32,13 @@ export function addTypesToFunction(ref, a) {
     let paramType = parsedFunction.params[0].typeAnnotation;
     let returnType = parsedFunction.returnType;
     
-    ref[a.count].returnType = returnType;
+    // ref[a.count].returnType = returnType;
+    ref.returnType = returnType;
     
-    for(let i = 0; i < ref[a.count].params.length; i++) {
-        ref[a.count].params[i].typeAnnotation = paramType;
+    // for(let i = 0; i < ref[a.count].params.length; i++) {
+    for(let i = 0; i < ref.params.length; i++) {
+        // ref[a.count].params[i].typeAnnotation = paramType;
+        ref.params[i].typeAnnotation = paramType;
     }
 }
 
@@ -48,6 +51,26 @@ export function addTypesToArrowFunction(ref, i) {
     ref.declarations[0].init.returnType = returnType;
     
     for(let i = 0; i < params.length; i++) {
-        params[0].typeAnnotation = paramType;
+        params[i].typeAnnotation = paramType;
+    }
+}
+
+export function addTypesToExpressionStatement(ref) {
+    let args = ref.expression.arguments;
+    
+    if(!args) return false;
+
+    for(let i = 0; i < args.length; i++) {
+        
+        switch (args[i].type) {
+            case 'ArrowFunctionExpression':
+                loopBody(args[i].body.body)
+            break;
+
+            case 'FunctionExpression':
+                loopBody(args[i].body.body)
+            break;
+        }    
+
     }
 }
