@@ -4,8 +4,16 @@
     color: white; */
     background-color: white;
     color: rgb(49, 120, 198);
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .header h1 {
     font-weight: 800;
+}
+
+.header .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
 }

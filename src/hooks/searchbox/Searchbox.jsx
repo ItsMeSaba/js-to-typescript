@@ -1,10 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react'
 import './searchbox.css'
-import algorithm from "../../algorithm";
-import { isInputObject, isInputArray, arrayInterface, objectInterface, isInputString } from '../../customTypesX';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import compiler from '../../compiler/compiler';
-import { variableDeclarations } from '../../regexPatterns';
+
+// import compiler from '../../compiler/compiler';
+import compiler from 'js-to-typescript'
 
 import 'codemirror/mode/javascript/javascript';
 import 'codemirror/lib/codemirror.css';
@@ -14,10 +13,19 @@ import 'codemirror/theme/material.css';
 // import 'codemirror/mode/css/css';
 import 'codemirror/mode/javascript/javascript';
 
+const sampleCode = `let a = [1];
+
+let b = {
+    a : 5,
+    b : 'a',
+    c : ['a', 5]
+}
+`
+
 function Searchbox() {
     const [timeoutId, setTimeoutId] = useState(null);
-    const [results, setResults] = useState('');
-    const [code, setCode] = useState('');
+    const [code, setCode] = useState(sampleCode);
+    const [results, setResults] = useState(compiler(sampleCode));
     const codeMirrorOptions = {
         theme: "material",
         lineNumbers: true,
@@ -25,23 +33,6 @@ function Searchbox() {
         lineWrapping: true
     };
 
-
-    function inputHandler(e) {
-        let newInput = e.nativeEvent.data;
-        let value = e.target.value.trim(); 
-        
-        if(!value) return setResults([]);
-
-        if(isInputString(value)) return setResults([<p>let str: <span className='answer'>string</span> = {value}</p>]) 
-
-        if(isInputArray(value)) return arrayInterface(value, setResults);
-
-        if(isInputObject(value)) return objectInterface(value, setResults);
-        
-        if(newInput !== ' ') algorithm(value, setResults)   
-    }
-
-    variableDeclarations();
 
     return (
         <div className='searchbox'>
@@ -59,10 +50,10 @@ function Searchbox() {
                     setCode(js);
                     
                     setTimeoutId(setTimeout(() => {
-                        compiler(js, setResults);
+                        setResults(compiler(js));
                     }, 500))
                 }}
-                />
+            />
 
             <CodeMirror
                 value={results}
@@ -76,9 +67,6 @@ function Searchbox() {
                 }}
             />
 
-            {/* <div className="results">
-                { results.length > 0 && <DisplayResults results={results} /> }
-            </div> */}
         </div>
     )
 }
