@@ -1,6 +1,5 @@
 {
   "name": "tstypes",
-  "homepage": "https://saba1121.github.io/js-to-typescript",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
